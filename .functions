@@ -1,0 +1,5 @@
+alias refunc='$EDITOR ~/.functions; source ~/.functions'
+
+pmod-exist() {
+  perl -M$1 -e 1
+}

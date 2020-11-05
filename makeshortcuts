@@ -1,0 +1,2 @@
+ ln -s .aliases  ~/.aliases
+ ln -s .functions ~/.functions
