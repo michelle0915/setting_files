@@ -1,2 +1,2 @@
- ln -s .aliases  ~/.aliases
- ln -s .functions ~/.functions
+ ln -s ~/git/setting_files/.aliases  ~/.aliases
+ ln -s ~/git/setting_files/.functions ~/.functions
