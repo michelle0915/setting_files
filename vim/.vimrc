@@ -424,6 +424,7 @@ endfunction
 
 " 各種言語用設定
 autocmd FileType vue :setlocal filetype=html
+autocmd BufRead,BufNewFile *.nml :setlocal filetype=nml
 
 " オムニ補完
 "autocmd FileType *
