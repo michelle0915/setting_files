@@ -24,8 +24,8 @@ set number
 set hlsearch
 set showtabline=3
 set expandtab
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set nowrap
 set cursorline
 set cursorcolumn
@@ -52,6 +52,9 @@ set iskeyword&
 
 " ビープ音を消す
 set vb t_vb=
+
+" 貼り付けモード切り替え（インデント、自動補完防止）
+set pastetoggle=<f3>
 
 " 基本操作キーマップ
 nnoremap <silent> <c-d> :q<cr>
@@ -87,6 +90,10 @@ nnoremap <leader>l :ls<cr>
 nnoremap <leader>r :source ~/.vimrc<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>o :tabnew<cr>:e 
+
+nnoremap BB :b#<cr>
+nnoremap BN :bnext<cr>
+nnoremap BP :bprevious<cr>
 
 noremap , <nop>
 nnoremap <silent> ,w :set wrap!<cr>
@@ -302,7 +309,7 @@ function! FiletypeCommentStr()
         return ';'
     elseif &ft == 'c' || &ft == 'java' || &ft == 'javascript' || &ft == 'php'
         return '//'
-    elseif &ft == 'perl' || &ft == 'python'
+    elseif &ft == 'sh' || &ft == 'perl' || &ft == 'python'
         return '#'
     endif
 endfunction

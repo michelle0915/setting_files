@@ -1,4 +1,0 @@
- ln -s ~/git/setting_files/.aliases  ~/.aliases
- ln -s ~/git/setting_files/.functions ~/.functions
- ln -s ~/git/setting_files/vim/.vimrc ~/.vimrc
- ln -s ~/git/setting_files/vim/.vim ~/.vim
