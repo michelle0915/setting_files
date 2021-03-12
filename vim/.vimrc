@@ -24,8 +24,8 @@ set number
 set hlsearch
 set showtabline=3
 set expandtab
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set nowrap
 set cursorline
 set cursorcolumn
@@ -40,6 +40,7 @@ set listchars=tab:>-,trail:-
 
 set ignorecase
 set smartcase
+set incsearch
 
 " 対応括弧のペアを追加
 set matchpairs&
@@ -59,8 +60,6 @@ set pastetoggle=<f3>
 " 基本操作キーマップ
 nnoremap <silent> <c-d> :q<cr>
 nnoremap <silent> <c-c> <esc>:nohlsearch<cr>
-nnoremap ; :
-nnoremap : ;
 noremap <c-z> <nop>
 nnoremap j gj
 xnoremap j gj
@@ -95,21 +94,19 @@ nnoremap BB :b#<cr>
 nnoremap BN :bnext<cr>
 nnoremap BP :bprevious<cr>
 
-noremap , <nop>
-nnoremap <silent> ,w :set wrap!<cr>
-nnoremap <silent> ,l :set list!<cr>
-nnoremap <silent> ,n :set number!<cr>
-nnoremap <silent> ,t :set expandtab!<cr>
+"noremap , <nop>
+"nnoremap <silent> ,w :set wrap!<cr>
+"nnoremap <silent> ,l :set list!<cr>
+"nnoremap <silent> ,n :set number!<cr>
+"nnoremap <silent> ,t :set expandtab!<cr>
 
 noremap <f1> :tabnew<cr>:help function-list<cr><c-w>w:q<cr>
 " vimrcを開く
 noremap <f2> :tabnew<cr>:e ~/.vimrc<cr>
 
 " 画面分割、タブ関連
-nnoremap s <nop>
-nnoremap sn gt
-nnoremap sp gT
-nnoremap sj <c-w>w
+"nnoremap sn gt
+"nnoremap sp gT
 
 " 大文字・小文字変換
 nnoremap gu gUiw
