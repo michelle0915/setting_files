@@ -32,8 +32,8 @@ set cursorcolumn
 set scrolloff=2
 set textwidth=0
 "set clipboard+=autoselect
-set clipboard&
-set clipboard^=unnamedplus
+"set clipboard&
+"set clipboard^=unnamedplus
 
 set nolist
 set listchars=tab:>-,trail:-
