@@ -1,12 +1,5 @@
 set shellslash
 
-" テーマ
-syntax on
-colorscheme molokai
-set encoding=utf-8
-set fileencodings=utf-8,cp932,sjis
-filetype plugin indent on
-
 " ウインドウの幅
 "set columns=100
 " ウインドウの高さ
@@ -18,6 +11,9 @@ set nobackup
 set viminfo=
 set noundofile
 set hidden
+
+set encoding=utf-8
+set fileencodings=utf-8,cp932,sjis
 
 " ウィンドウ表示設定
 set number
@@ -34,6 +30,7 @@ set textwidth=0
 "set clipboard+=autoselect
 set clipboard&
 set clipboard^=unnamedplus
+set termguicolors
 
 set nolist
 set listchars=tab:>-,trail:-
@@ -41,6 +38,8 @@ set listchars=tab:>-,trail:-
 set ignorecase
 set smartcase
 set incsearch
+
+set helplang=ja
 
 " 対応括弧のペアを追加
 set matchpairs&
@@ -71,7 +70,7 @@ noremap <c-e> 2<c-e>
 noremap <c-y> 2<c-y>
 nnoremap <c-u> <c-r>
 "noremap <silent> <c-k> "zyiw:let @/ = '\<' . @z . '\>'<cr>:set hlsearch<cr>
-noremap <silent> <c-k> :call Highlight()<cr>:set hlsearch<cr>
+nnoremap <silent> <c-k> :call Highlight()<cr>:set hlsearch<cr>
 noremap <c-n> %
 nnoremap <c-z> :stop<cr>
 
@@ -147,11 +146,31 @@ vnoremap " <esc>:call Wrap("\"", "\"")<cr>
 vnoremap ' <esc>:call Wrap("\'", "\'")<cr>
 vnoremap s <esc>:call Wrap(" ", " ")<cr>
 
-vnoremap / y/<c-r>"<cr>
+"vnoremap * y/<c-r>"<cr>
+vnoremap * :<c-u>call Vsearch()<cr>/<c-r>=@/<cr><cr>
+function! Vsearch()
+    let tmp = @s
+    normal! gv"sy
+    let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+    let @s = tmp
+endfunction
 
-" Quickfixフック
+" vimgrep設定
 autocmd QuickFixCmdPre vimgrep tabnew
 autocmd QuickFixCmdPost vimgrep cwindow
+
+let ignore_list  = ',**/.git/**,**/.svn/**,**/obj/**'
+let ignore_list .= ',**/node_modules/**'
+let ignore_list .= ',tags,GTAGS,GRTAGS,GPATH'
+let ignore_list .= ',*.o,*.obj,*.exe,*.dll,*.bin,*.so,*.a,*.out,*.jar,*.pak'
+let ignore_list .= ',*.zip,*gz,*.xz,*.bz2,*.7z,*.lha,*.lzh,*.deb,*.rpm,*.iso'
+let ignore_list .= ',*.pdf,*.png,*.jp*,*.gif,*.bmp,*.mp*'
+let ignore_list .= ',*.od*,*.doc*,*.xls*,*.ppt*'
+
+if exists('+wildignore')
+	autocmd QuickFixCmdPre  * execute 'setlocal wildignore+=' . ignore_list
+	autocmd QuickFixCmdPost * execute 'setlocal wildignore-=' . ignore_list
+endif
 
 " 自作コマンド読み込み
 ":source $VIM/_mycommand.vim
@@ -308,6 +327,8 @@ function! FiletypeCommentStr()
         return '//'
     elseif &ft == 'sh' || &ft == 'perl' || &ft == 'python'
         return '#'
+    else
+        return '#'
     endif
 endfunction
 
@@ -428,6 +449,7 @@ endfunction
 
 " 各種言語用設定
 autocmd FileType vue :setlocal filetype=html
+autocmd BufRead,BufNewFile *.tsx :setlocal filetype=javascript
 autocmd BufRead,BufNewFile *.nml :setlocal filetype=nml
 
 " オムニ補完
@@ -469,3 +491,63 @@ augroup vimrc_auto_reload
     autocmd!
     autocmd BufWritePost *.vim,*vimrc source ~/.vimrc
 augroup END
+
+
+
+" dein.vim settings {{{
+" install dir {{{
+let s:dein_dir = expand('~/.cache/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+" }}}
+
+" dein installation check {{{
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . s:dein_repo_dir
+endif
+" }}}
+
+" begin settings {{{
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " .toml file
+  let s:rc_dir = expand('~/.vim')
+  if !isdirectory(s:rc_dir)
+    call mkdir(s:rc_dir, 'p')
+  endif
+  let s:toml = s:rc_dir . '/dein.toml'
+  let s:toml_lazy = s:rc_dir . '/dein_lazy.toml'
+
+  " read toml and cache
+  call dein#load_toml(s:toml, {'lazy': 0})
+  call dein#load_toml(s:toml_lazy, {'lazy': 1})
+
+  " end settings
+  call dein#end()
+  call dein#save_state()
+endif
+" }}}
+
+" plugin installation check {{{
+if dein#check_install()
+  call dein#install()
+endif
+" }}}
+
+" plugin remove check {{{
+let s:removed_plugins = dein#check_clean()
+if len(s:removed_plugins) > 0
+  call map(s:removed_plugins, "delete(v:val, 'rf')")
+  call dein#recache_runtimepath()
+endif
+" }}}
+
+
+
+" テーマ
+syntax on
+filetype plugin indent on
+colorscheme molokai
