@@ -15,6 +15,15 @@ repo = 'markonm/traces.vim'
 repo = 'tomasr/molokai'
 
 [[plugins]]
+repo = 'cocopon/iceberg.vim'
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+hook_add = '''
+  set background=dark
+'''
+
+[[plugins]]
 repo = 'Shougo/neomru.vim'
 on_path = '.*'
 

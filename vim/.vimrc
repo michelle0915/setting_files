@@ -550,4 +550,6 @@ endif
 " テーマ
 syntax on
 filetype plugin indent on
-colorscheme molokai
+"colorscheme molokai
+"colorscheme iceberg
+colorscheme hybrid
