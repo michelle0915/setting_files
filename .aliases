@@ -21,6 +21,8 @@ alias dockstop='docker stop $(docker ps -q)'
 alias reperl='perl -de0'
 alias t='tmux'
 
+alias colors='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done;echo'
+
 alias sshnp='ssh -i ~/ec2aidjkk.pem $EC2'
 alias scpnp='scp -i ~/ec2aidjkk.pem'
 alias startnp='source ~/ec2script/start_ec2.sh'

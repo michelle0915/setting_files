@@ -16,6 +16,7 @@ set encoding=utf-8
 set fileencodings=utf-8,cp932,sjis
 
 " ウィンドウ表示設定
+set showcmd
 set number
 set hlsearch
 set showtabline=3
@@ -27,6 +28,7 @@ set cursorline
 set cursorcolumn
 set scrolloff=2
 set textwidth=0
+set nostartofline
 "set clipboard+=autoselect
 "set clipboard&
 "set clipboard^=unnamedplus
@@ -80,6 +82,10 @@ vnoremap x "_x
 nnoremap X "_X
 vnoremap X "_X
 
+" クリップボードコピー＆ペースト
+vnoremap <c-s-y> "*y
+nnoremap <c-s-p> "*p
+
 " leader
 let mapleader="\<space>"
 nnoremap <leader>s :set 
@@ -126,6 +132,7 @@ inoremap <c-f> <right>
 inoremap <c-b> <left>
 inoremap <c-d> <del>
 inoremap <c-t> <c-v><tab>
+inoremap <c-c> <esc>
  
 " 括弧入力補完
 inoremap ( ()<left>
@@ -252,6 +259,12 @@ endfunction
 
 " 指定の文字で選択範囲を囲む
 function! Wrap(prefix, suffix)
+
+    " 行選択中に<が入力された場合のみ、元のインデント処理を実行
+    if a:prefix == '<' && visualmode() ==# 'V'
+        execute 'normal! gv<'
+        return
+    endif
 
     execute "normal! `>"
     execute "normal! a" . a:suffix . "\<esc>"
@@ -447,6 +460,33 @@ function! CharIndent(indexchar) range
     endwhile
 endfunction
 
+" カンマ区切り文字列の各要素を一定の幅で表示する
+function! FormatCsvLine(width)
+    let line = getline('.')
+    let items = split(line, ',')
+
+    let newItems = []
+    let overWidth = 0
+
+    if line == ''
+        continue
+    else
+        for word in items
+            let wordlen = strlen(word)
+            if wordlen > a:width
+                let overWidth = wordlen
+            endif
+            call add(newItems, word . repeat(" ", a:width - wordlen))
+        endfor
+    endif
+
+    call setline('.', join(newItems, ','))
+"    if overWidth > 0
+"        echohl WarningMsg | echo 'Warning: There are some words which is over the specified width ['.overWidth.'].' | echohl None
+"    endif
+    return overWidth
+endfunction
+
 " 各種言語用設定
 autocmd FileType vue :setlocal filetype=html
 autocmd BufRead,BufNewFile *.tsx :setlocal filetype=javascript
@@ -471,8 +511,8 @@ endif
 se tags=.tags;/;
 
 augroup ctags
-  autocmd!
-  autocmd BufWritePost * call Execute_ctags()
+    autocmd!
+    autocmd BufWritePost * call Execute_ctags()
 augroup END
 
 function! Execute_ctags() abort
@@ -492,6 +532,11 @@ augroup vimrc_auto_reload
     autocmd BufWritePost *.vim,*vimrc source ~/.vimrc
 augroup END
 
+augroup templates
+    autocmd!
+    autocmd BufNewFile Dockerfile :0r $HOME/.vim/template/docker/Dockerfile
+    autocmd BufNewFile docker-compose.yml :0r $HOME/.vim/template/docker/docker-compose.yml
+augroup END
 
 
 " dein.vim settings {{{
