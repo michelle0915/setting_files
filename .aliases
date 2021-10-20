@@ -21,10 +21,11 @@ alias dockstop='docker stop $(docker ps -q)'
 alias reperl='perl -de0'
 alias t='tmux'
 
-alias sshnp='ssh -i ~/ec2aidjkk.pem $EC2'
-alias scpnp='scp -i ~/ec2aidjkk.pem'
+alias sshnp='ssh -i ~/pems/ec2aidjkk.pem $EC2'
+alias scpnp='scp -i ~/pems/ec2aidjkk.pem'
 alias startnp='source ~/ec2script/start_ec2.sh'
 alias stopnp='source ~/ec2script/stop_ec2.sh'
 alias statusnp='node ~/ec2script/status_ec2.js'
 
 alias sshgpu='ssh aidjkk@noteGPU.local'
+alias sshjet='ssh aidjkk@aidjkk-jetson-nano.local'
