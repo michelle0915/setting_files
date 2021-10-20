@@ -1,1 +1,0 @@
-/home/michael/git/setting_files/vim/.vim
