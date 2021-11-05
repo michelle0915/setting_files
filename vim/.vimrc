@@ -191,6 +191,16 @@ let g:netrw_preview=1
 "let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 "let g:netrw_altv = 1
 "let g:netrw_alto = 1
+let g:netrw_chgwin=2
+
+" netrw refresh無効化
+function! ExampleUserMap(islocal)
+"  call netrw#Modify("netrwmarkfilelist",[])
+"  call netrw#Modify('netrwmarkfilemtch_{bufnr("%")}',"")
+"  let retval= ["refresh"]
+  return 0
+endfunction
+let g:Netrw_UserMaps= [["<c-l>","ExampleUserMap"]]
 
 noremap <F9> :tabnew<cr>:e .<cr>
 
