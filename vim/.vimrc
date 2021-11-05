@@ -33,6 +33,7 @@ set nostartofline
 "set clipboard&
 "set clipboard^=unnamedplus
 set termguicolors
+set backspace=indent,eol,start
 
 set nolist
 set listchars=tab:>-,trail:-
@@ -336,7 +337,7 @@ function! FiletypeCommentStr()
         return '"'
     elseif &ft == 'lisp'
         return ';'
-    elseif &ft == 'c' || &ft == 'java' || &ft == 'javascript' || &ft == 'php'
+    elseif &ft == 'c' || &ft == 'java' || &ft == 'javascript' || &ft == 'typescript' || &ft == 'php'
         return '//'
     elseif &ft == 'sh' || &ft == 'perl' || &ft == 'python'
         return '#'
@@ -538,6 +539,12 @@ augroup templates
     autocmd BufNewFile docker-compose.yml :0r $HOME/.vim/template/docker/docker-compose.yml
 augroup END
 
+if system('uname -a | grep microsoft') != ''
+  augroup myYank
+    autocmd!
+    autocmd TextYankPost * :call system('clip.exe', @")
+  augroup END
+endif
 
 " dein.vim settings {{{
 " install dir {{{
