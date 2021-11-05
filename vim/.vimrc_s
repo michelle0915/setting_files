@@ -1,10 +1,5 @@
 set shellslash
 
-" ウインドウの幅
-"set columns=100
-" ウインドウの高さ
-"set lines=50
-
 " 自動生成ファイルを生成しない
 set noswapfile
 set nobackup
@@ -29,11 +24,6 @@ set cursorcolumn
 set scrolloff=2
 set textwidth=0
 set nostartofline
-"set clipboard+=autoselect
-"set clipboard&
-"set clipboard^=unnamedplus
-set termguicolors
-set backspace=indent,eol,start
 
 set nolist
 set listchars=tab:>-,trail:-
@@ -41,8 +31,6 @@ set listchars=tab:>-,trail:-
 set ignorecase
 set smartcase
 set incsearch
-
-set helplang=ja
 
 " 対応括弧のペアを追加
 set matchpairs&
@@ -92,7 +80,6 @@ let mapleader="\<space>"
 nnoremap <leader>s :set 
 nnoremap <leader>g :vimgrep  **/*<left><left><left><left><left>
 nnoremap <leader>l :ls<cr>
-nnoremap <leader>r :source ~/.vimrc<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>o :tabnew<cr>:e 
 
@@ -100,19 +87,9 @@ nnoremap BB :b#<cr>
 nnoremap BN :bnext<cr>
 nnoremap BP :bprevious<cr>
 
-"noremap , <nop>
-"nnoremap <silent> ,w :set wrap!<cr>
-"nnoremap <silent> ,l :set list!<cr>
-"nnoremap <silent> ,n :set number!<cr>
-"nnoremap <silent> ,t :set expandtab!<cr>
-
 noremap <f1> :tabnew<cr>:help function-list<cr><c-w>w:q<cr>
 " vimrcを開く
 noremap <f2> :tabnew<cr>:e ~/.vimrc<cr>
-
-" 画面分割、タブ関連
-"nnoremap sn gt
-"nnoremap sp gT
 
 " 大文字・小文字変換
 nnoremap gu gUiw
@@ -180,9 +157,6 @@ if exists('+wildignore')
 	autocmd QuickFixCmdPost * execute 'setlocal wildignore-=' . ignore_list
 endif
 
-" 自作コマンド読み込み
-":source $VIM/_mycommand.vim
-
 " netrw.vim設定
 let g:netrw_banner=0
 let g:netrw_liststyle=3
@@ -192,16 +166,6 @@ let g:netrw_preview=1
 "let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 "let g:netrw_altv = 1
 "let g:netrw_alto = 1
-let g:netrw_chgwin=2
-
-" netrw refresh無効化
-function! ExampleUserMap(islocal)
-"  call netrw#Modify("netrwmarkfilelist",[])
-"  call netrw#Modify('netrwmarkfilemtch_{bufnr("%")}',"")
-"  let retval= ["refresh"]
-  return 0
-endfunction
-let g:Netrw_UserMaps= [["<c-l>","ExampleUserMap"]]
 
 noremap <F9> :tabnew<cr>:e .<cr>
 
@@ -233,38 +197,6 @@ function! GetFileFormat()
         return 'CR'
     else
         return 'unknown'
-    endif
-endfunction
-
-" 選択範囲の文字列を取得
-function! GetSelectedString()
-
-    let ret = ""
-    let tmp = @@
-    execute "normal! gvy"
-    let ret = @@
-    let @@ = tmp
-
-    return ret
-endfunction
-
-" 25%/75%の位置に移動できる
-" 着地点を予測しにくいため、使い勝手がイマイチ
-function! ThreeQuarter(pos)
-    execute "normal! H"
-    let rowH = line('.')
-    execute "normal! L"
-    let rowL = line('.')
-    execute "normal! M"
-    let rowM = line('.')
-
-    let rowMH = ( rowH + rowM ) / 2
-    let rowML = ( rowL + rowM ) / 2
-
-    if a:pos == "h"
-        execute "normal! " . rowMH . "G"
-    else
-        execute "normal! " . rowML . "G"
     endif
 endfunction
 
@@ -347,7 +279,7 @@ function! FiletypeCommentStr()
         return '"'
     elseif &ft == 'lisp'
         return ';'
-    elseif &ft == 'c' || &ft == 'java' || &ft == 'javascript' || &ft == 'typescript' || &ft == 'php'
+    elseif &ft == 'c' || &ft == 'java' || &ft == 'javascript' || &ft == 'php'
         return '//'
     elseif &ft == 'sh' || &ft == 'perl' || &ft == 'python'
         return '#'
@@ -518,96 +450,10 @@ if has('vim_starting')
     let &t_SR .= "\e[4 q"
 endif
 
-" タグファイル探索
-se tags=.tags;/;
-
-augroup ctags
-    autocmd!
-    autocmd BufWritePost * call Execute_ctags()
-augroup END
-
-function! Execute_ctags() abort
-    let tag_name = '.tags'
-    let tags_path = findfile(tag_name , '.;')
-
-    if tags_path ==# ''
-        return
-    endif
-
-    let tags_dirpath = fnamemodify(tags_path, ':p:h')
-    execute 'silent !cd ' . tags_dirpath . ' && ctags -R -f ' . tag_name . ' 2> /dev/null &'
-endfunction
-
 augroup vimrc_auto_reload
     autocmd!
     autocmd BufWritePost *.vim,*vimrc source ~/.vimrc
 augroup END
-
-augroup templates
-    autocmd!
-    autocmd BufNewFile Dockerfile :0r $HOME/.vim/template/docker/Dockerfile
-    autocmd BufNewFile docker-compose.yml :0r $HOME/.vim/template/docker/docker-compose.yml
-augroup END
-
-if system('uname -a | grep microsoft') != ''
-  augroup myYank
-    autocmd!
-    autocmd TextYankPost * :call system('clip.exe', @")
-  augroup END
-endif
-
-" dein.vim settings {{{
-" install dir {{{
-let s:dein_dir = expand('~/.cache/dein')
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-" }}}
-
-" dein installation check {{{
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^=' . s:dein_repo_dir
-endif
-" }}}
-
-" begin settings {{{
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
-  " .toml file
-  let s:rc_dir = expand('~/.vim')
-  if !isdirectory(s:rc_dir)
-    call mkdir(s:rc_dir, 'p')
-  endif
-  let s:toml = s:rc_dir . '/dein.toml'
-  let s:toml_lazy = s:rc_dir . '/dein_lazy.toml'
-
-  " read toml and cache
-  call dein#load_toml(s:toml, {'lazy': 0})
-  call dein#load_toml(s:toml_lazy, {'lazy': 1})
-
-  " end settings
-  call dein#end()
-  call dein#save_state()
-endif
-" }}}
-
-" plugin installation check {{{
-if dein#check_install()
-  call dein#install()
-endif
-" }}}
-
-" plugin remove check {{{
-let s:removed_plugins = dein#check_clean()
-if len(s:removed_plugins) > 0
-  call map(s:removed_plugins, "delete(v:val, 'rf')")
-  call dein#recache_runtimepath()
-endif
-" }}}
-
-
 
 " テーマ
 syntax on
