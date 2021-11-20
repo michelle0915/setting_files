@@ -34,6 +34,7 @@ set nostartofline
 "set clipboard^=unnamedplus
 set termguicolors
 set backspace=indent,eol,start
+set re=0
 
 set nolist
 set listchars=tab:>-,trail:-
@@ -499,8 +500,8 @@ function! FormatCsvLine(width)
 endfunction
 
 " 各種言語用設定
-autocmd FileType vue :setlocal filetype=html
-autocmd BufRead,BufNewFile *.tsx :setlocal filetype=javascript
+autocmd BufRead,BufNewFile *.jsx :setlocal filetype=javascriptreact
+autocmd BufRead,BufNewFile *.tsx :setlocal filetype=typescriptreact
 autocmd BufRead,BufNewFile *.nml :setlocal filetype=nml
 
 " オムニ補完
@@ -567,7 +568,7 @@ if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
     execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
   endif
-  execute 'set runtimepath^=' . s:dein_repo_dir
+  execute 'set runtimepath+=' . s:dein_repo_dir
 endif
 " }}}
 
