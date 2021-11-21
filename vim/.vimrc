@@ -21,8 +21,8 @@ set number
 set hlsearch
 set showtabline=3
 set expandtab
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set nowrap
 set cursorline
 set cursorcolumn
