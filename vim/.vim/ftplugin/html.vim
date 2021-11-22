@@ -4,11 +4,10 @@ if exists("b:did_html_plugin")
 endif
 let b:did_html_plugin = 1
 
-setlocal shiftwidth=2
 setlocal iskeyword+=-
 
-inoremap <buffer> >> ><esc>:call AddEndTag()<cr>cit
-inoremap <buffer> ><cr> ><esc>:call AddEndTag()<cr>cit<cr><esc><s-o>
+"inoremap <buffer> >> ><esc>:call AddEndTag()<cr>cit
+"inoremap <buffer> ><cr> ><esc>:call AddEndTag()<cr>cit<cr><esc><s-o>
 nnoremap <silent> <buffer> <leader>j :call JumpToPairTag()<cr>
 
 " functions
