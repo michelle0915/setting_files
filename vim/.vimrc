@@ -185,24 +185,36 @@ endif
 ":source $VIM/_mycommand.vim
 
 " netrw.vim設定
+let g:netrw_altfile=1
 let g:netrw_banner=0
 let g:netrw_liststyle=3
 let g:netrw_timefmt="%Y/%m/%d(%a) %H:%M:%S"
 let g:netrw_winsize=30
 let g:netrw_preview=1
 "let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-"let g:netrw_altv = 1
-"let g:netrw_alto = 1
+"let g:netrw_altv = 0
+"let g:netrw_alto = 0
 let g:netrw_chgwin=2
+let g:netrw_keepdir=0
 
-" netrw refresh無効化
+" netrw refresh無効化(<c-l>にバインド)
 function! ExampleUserMap(islocal)
-"  call netrw#Modify("netrwmarkfilelist",[])
-"  call netrw#Modify('netrwmarkfilemtch_{bufnr("%")}',"")
-"  let retval= ["refresh"]
   return 0
 endfunction
-let g:Netrw_UserMaps= [["<c-l>","ExampleUserMap"]]
+
+function! OpenMultiWindow(islocal)
+    execute "bel vnew"
+    execute "bel terminal"
+    call RestoreWindowSize(0)
+endfunction
+
+function! RestoreWindowSize(islocal)
+    execute "normal! \<c-w>1w\<c-w>50|"
+    execute "normal! \<c-w>3w\<c-w>10_"
+    execute "normal! \<c-w>1w"
+endfunction
+
+let g:Netrw_UserMaps= [["<c-l>","RestoreWindowSize"], ["<c-i>","OpenMultiWindow"]]
 
 noremap <F9> :tabnew<cr>:e .<cr>
 
@@ -318,7 +330,7 @@ endfunction
 
 " コメントアウト
 function! CommentOut(commentString)
-    execute "normal! 0i" . a:commentString . "\<esc>"
+    execute "normal! ^i" . a:commentString . " \<esc>"
 endfunction
 
 " コメントアウト解除
@@ -326,10 +338,11 @@ function! UnCommentOut(commentString)
     let tmp = @@
 
     let line = getline('.')
-    if match(line, '^\s*'.a:commentString) == -1
+    if match(line, '^\s*'.a:commentString." ") == -1
         return
     endif
-    execute "normal! ^" . repeat("x", len(a:commentString))
+
+    execute "normal! ^" . repeat("x", len(a:commentString." "))
 
     let @@ = tmp
 endfunction
@@ -348,7 +361,7 @@ function! FiletypeCommentStr()
         return '"'
     elseif &ft == 'lisp'
         return ';'
-    elseif &ft == 'c' || &ft == 'java' || &ft == 'javascript' || &ft == 'typescript' || &ft == 'php'
+    elseif &ft == 'c' || &ft == 'java' || &ft == 'javascript' || &ft == 'typescript' || &ft == 'typescriptreact' || &ft == 'php'
         return '//'
     elseif &ft == 'sh' || &ft == 'perl' || &ft == 'python'
         return '#'

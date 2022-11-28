@@ -93,8 +93,8 @@ hook_add = '''
   nmap <silent> gr <Plug>(coc-references)
 '''
 
-[[plugins]]
-repo = 'instant-markdown/vim-instant-markdown'
+#[[plugins]]
+#repo = 'instant-markdown/vim-instant-markdown'
 
 [[plugins]]
 repo = 'alvan/vim-closetag'
