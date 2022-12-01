@@ -129,6 +129,8 @@ noremap <c-down> <c-f>
 noremap <c-right> 3zl
 noremap <c-left> 3zh
 
+nnoremap gp :echo expand('%:p')<cr>
+
 " 入力中キーバインド
 inoremap <c-f> <right>
 inoremap <c-b> <left>
