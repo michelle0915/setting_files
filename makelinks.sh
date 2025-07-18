@@ -24,3 +24,4 @@ else
 fi
 
 ln -s $dir/vim/.vim ~/.vim
+ln -s $dir/nvim ~/.config/nvim
