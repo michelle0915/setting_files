@@ -52,8 +52,8 @@ vim.keymap.set('i', '{', '{}<left>', opts)
 vim.keymap.set('i', '"', '""<left>', opts)
 vim.keymap.set('i', '\'', '\'\'<left>', opts)
 
--- vim.keymap.set('{<cr>', '{}<left><cr><esc><s-o>', opts)
--- vim.keymap.set('[<cr>', '[]<left><cr><esc><s-o>', opts)
+vim.keymap.set('i', '{<cr>', '{}<left><cr><esc><s-o>', opts)
+vim.keymap.set('i', '[<cr>', '[]<left><cr><esc><s-o>', opts)
 
 vim.g.selectAfterWrap = 0
 vim.keymap.set('v', '(', '<esc>:lua Wrap("(", ")")<cr>', opts)
