@@ -40,14 +40,14 @@ return {
       end,
       capabilities = require("cmp_nvim_lsp").default_capabilities(),
     })
-    vim.lsp.enable("vim-language-server")
-    vim.lsp.enable("lua-language-server")
+    vim.lsp.enable("vimls")
+    vim.lsp.enable("lua_ls")
     vim.lsp.enable("pyright")
     vim.lsp.enable("ruff")
     vim.lsp.enable("vtsls")
     vim.lsp.enable("prettier")
     vim.lsp.enable("svelte")
-    vim.lsp.enable("tailwindcss-language-server")
+    vim.lsp.enable("tailwindcss")
     vim.lsp.enable("gopls")
     vim.opt.signcolumn = "yes"
   end
