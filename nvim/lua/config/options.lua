@@ -13,6 +13,7 @@ vim.opt.fileencodings = { 'utf-8', 'cp932', 'sjis' }
 -- ウィンドウ表示設定
 vim.opt.showcmd = true
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.hlsearch = true
 vim.opt.showtabline = 3
 vim.opt.expandtab = true
@@ -45,6 +46,7 @@ vim.opt.matchpairs:append '「:」'
 
 -- vim.opt.iskeyword = ''
 vim.opt.nrformats = ''
+vim.opt.mouse = ''
 
 -- ビープ音を消す
 vim.opt.visualbell = false
