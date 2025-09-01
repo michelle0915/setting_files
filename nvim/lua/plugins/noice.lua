@@ -2,6 +2,12 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
   opts = {
+    routes = {
+      {
+        view = "notify",
+        filter = { event = "msg_showmode" },
+      },
+    },
     cmdline = {
       enabled = true, -- enables the Noice cmdline UI
       view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
