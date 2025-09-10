@@ -44,7 +44,7 @@ vim.keymap.set('i', '<c-b>', '<left>', opts)
 vim.keymap.set('i', '<c-d>', '<del>', opts)
 vim.keymap.set('i', '<c-t>', '<c-v><tab>', opts)
 vim.keymap.set('i', '<c-c>', '<esc>', opts)
- 
+
 -- 括弧入力補完
 vim.keymap.set('i', '(', '()<left>', opts)
 vim.keymap.set('i', '[', '[]<left>', opts)
@@ -76,24 +76,6 @@ function Vsearch()
   vim.fn.setreg('s', tmp)
 end
 
--- 最下ウィンドウにステータスバーを常に表示する
-vim.opt.laststatus = 2
- 
--- ステータスバーの内容
-vim.opt.statusline = table.concat({
-  ' [%n]',                                -- バッファ番号
-  ' %<%t',                                -- ファイル名
-  ' %r%H%W%m',                            -- ファイルステータス
-  ' [Enc/Fmt:',
-    '%{strlen(&fenc) ? &fenc : "unknown"}',
-    '/%{v:lua.GetFileFormat()}',         -- 改行コード
-  ']',
-  '%{&bomb ? "[BOM]" : ""}',             -- BOM 有無
-  '%=',                                  -- 右寄せ開始
-  ' [Ascii:%03b/0x%02B]',                -- ASCIIコード（10進/16進）
-  ' [Line:%l/%L Col:%c]',                -- 行 / 全行数、列
-})
- 
 -- ファイルフォーマットを改行コードに変換
 function GetFileFormat()
   local ff = vim.bo.fileformat
