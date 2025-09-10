@@ -8,6 +8,7 @@ return {
     vim.keymap.set("n", "grn", vim.lsp.buf.rename, opts)
     vim.keymap.set("n", "g>", vim.diagnostic.goto_next, opts)
     vim.keymap.set("n", "g<", vim.diagnostic.goto_prev, opts)
+    vim.keymap.set("n", "gq", vim.diagnostic.setqflist, opts)
     vim.api.nvim_create_autocmd("CursorHold", {
       callback = function()
         vim.diagnostic.open_float(nil, {
